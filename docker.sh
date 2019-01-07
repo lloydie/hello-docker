@@ -2,7 +2,7 @@
 
 dockerfile_create() {
     cat <<EOF > Dockerfile
-FROM=$_FROM
+FROM=
 WORKDIR=$_WORKDIR
 COPY=$_COPY
 RUN=$_RUN
