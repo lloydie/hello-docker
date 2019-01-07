@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 
-dockerfile_create() {
+Docker_Create_Dockerfile() {
     cat <<EOF > Dockerfile
 FROM=
-WORKDIR=$_WORKDIR
-COPY=$_COPY
-RUN=$_RUN
-EXPOSE=$_EXPOSE
-ENV=$_ENV
-CMD=$_CMD
+WORKDIR=
+COPY=
+RUN=
+EXPOSE=
+ENV=
+CMD=
 EOF
 }
 
@@ -28,7 +28,7 @@ _docker-compose-create() {
 _REPLICAS=
 _LIMIT_CPU=
 _LIMIT_MEM='50M'
-_RESTART_POLICY_CONDITION='on-failure'
+_RESTART_CONDITION='on-failure'
 _PORTS='4000:80'
 _NETWORKS=webnet
 
@@ -41,10 +41,10 @@ services:
       replicas: $DOCKER_SWARM_REPLICAS
       resources:
         limits:
-          cpus: "0.1"
-          memory: 50M
+          cpus: "$_LIMIT_CPU"
+          memory: $_LIMIT_MEM
       restart_policy:
-        condition: on-failure
+        condition: $_RESTART_CONDITION
     ports:
       - "4000:80"
     networks:
@@ -52,6 +52,8 @@ services:
 networks:
   webnet:
 EOF
+}
+
 docker-compose() {
     # create docker-compose.yml
     docker stack deploy -c docker-compose.yml $PKG_NAME
