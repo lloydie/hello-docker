@@ -12,19 +12,25 @@ CMD=
 EOF
 }
 
-PKG_REPO='hello-py2'
+DOCKER_HUB_USER=lloydie
+PKG_REPO='hello-docker'
 PKG_TAG='latest'
 
-docker-run() {
-    docker run -p 4000:80 "$PKG_REPO/$PKG_NAME"
+Docker-run() {
+    docker run -p 4000:80 "$DOCKER_HUB_USER/$PKG_REPO:$PKG_TAG"
 }
 
-docker-build() {
-    docker build --tag="$PKG_REPO/$PKG_NAME:$PKG_TAG" .
+Docker-build() {
+    docker build --tag="$DOCKER_HUB_USER/$PKG_REPO:$PKG_TAG" .
 }
 
+Docker-publish() {
+    docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASS
+    docker push $PKG_REPO:$PKG_TAG
+    docker logout
+}
 
-_docker-compose-create() {
+Docker-compose-create() {
 _REPLICAS=
 _LIMIT_CPU=
 _LIMIT_MEM='50M'
@@ -36,9 +42,9 @@ _NETWORKS=webnet
 version: "$PKG_VERSION"
 services:
   web:
-    image: $DOCKER_USER/$HUB_REPO:$PKG_VERSION
+    image: $DOCKER_HUB_USER/$PKG_REPO:$PKG_VERSION
     deploy:
-      replicas: $DOCKER_SWARM_REPLICAS
+      replicas: $_REPLICAS
       resources:
         limits:
           cpus: "$_LIMIT_CPU"
@@ -54,12 +60,12 @@ networks:
 EOF
 }
 
-docker-compose() {
+Docker-compose() {
     # create docker-compose.yml
     docker stack deploy -c docker-compose.yml $PKG_NAME
 }
 
-docker-swarm-leave() {
+Docker-swarm-leave() {
     docker stack rm $PKG_NAME
 }
 
