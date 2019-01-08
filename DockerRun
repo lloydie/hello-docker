@@ -23,5 +23,4 @@ eval $(docker-machine env myvm1)
 docker stack deploy -c docker-compose.yml getstartedlab
 docker stack ps getstartedlab
 docker service ls
-docker machine ls
 
