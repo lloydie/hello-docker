@@ -1,0 +1,10 @@
+#!/bin/bash
+
+set -x
+
+PKG_NAME='lloydie/hello-docker'
+
+PORT_CONT=80
+PORT_MACH=4000
+
+docker run -p $PORT_MACH:$PORT_CONT $PKG_NAME

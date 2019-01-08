@@ -1,0 +1,21 @@
+#!/bin/bash
+
+set -x
+
+PKG_REPO='lloydie'
+PKG_NAME='hello-docker'
+PKG_VERSION='latest'
+PKG_TAG="$PKG_REPO/$PKG_NAME:$PKG_VERSION"
+
+PKG_INSTALLED=$(docker image ls | grep -c "$PKG_REPO/$PKG_NAME")
+
+if [ "$PKG_INSTALLED" == '1' ]; then
+    read -p "$PKG_TAG - installed: Delete ?" 
+    if [ "$REPLY" == 'y' ]; then
+	docker image rm $PKG_TAG
+    else
+	exit
+    fi
+fi
+
+docker build --tag="$PKG_TAG" .
