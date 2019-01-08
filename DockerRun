@@ -1,0 +1,27 @@
+#!/bin/bash
+
+set -x
+
+export VIRTUALBOX_BOOT2DOCKER_URL="$HOME/.docker/machine/cache/boot2docker-18.06.1-ce.iso"
+
+docker-machine rm myvm1 myvm2
+
+docker-machine create --driver virtualbox myvm1
+docker-machine create --driver virtualbox myvm2
+
+MYVM1_IP=$(docker-machine ip myvm1)
+MYVM2_IP=$(docker-machine ip myvm2)
+SWARM_TOKEN=$(docker-machine ssh myvm1 "docker swarm init --advertise-addr $MYVM1_IP" | awk '/--token/ {print $5}')
+
+docker-machine ssh myvm2 "docker swarm join --token $SWARM_TOKEN $MYVM1_IP:2377"
+docker-machine ssh myvm1 "docker node ls"
+docker-machine ssh myvm1 "mkdir ./data"
+
+docker-machine env myvm1
+eval $(docker-machine env myvm1)
+
+docker stack deploy -c docker-compose.yml getstartedlab
+docker stack ps getstartedlab
+docker service ls
+docker machine ls
+
