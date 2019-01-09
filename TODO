@@ -1,0 +1,15 @@
+# TODO
+
+- implement test_suite
+- code playground / wizard walk through
+- networking
+- scaling
+- migrating
+- backup/restore
+- data providers
+- 2 factor auth
+
+
+# Intergrations
+- vault
+- consul
