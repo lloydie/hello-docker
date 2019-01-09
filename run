@@ -1,16 +1,12 @@
 #!/bin/bash
 
-Docker-container() {
+run-container() {
     docker run -it \
 	--name=hello-docker \
 	lloydie/hello-docker:latest
 }
 
-Docker-swarm() {
-    docker stack deploy -c docker-compose.yml hello-docker
-}
-
-Docker-machines() {
+run-machines() {
     export VIRTUALBOX_BOOT2DOCKER_URL=file://$HOME/.docker/machine/cache/boot2docker-18.06.1-ce.iso
 
     SWARM_MANAGERS=2
@@ -58,7 +54,7 @@ Docker-machines() {
 
 }
 
-docker-swarm() {
+run-swarm() {
     PKG_PATH=$(pwd)
     PKG_NAME=${PKG_PATH##*/}
     docker swarm init
