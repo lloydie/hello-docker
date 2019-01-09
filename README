@@ -1,5 +1,6 @@
-Docker hello world for django framework
+# About
 
-# https://docs.docker.com/get-started/
+Docker getting started tutorials and example code including 
+containers, machines, swarms and services .
 
-# TODO docs
+
