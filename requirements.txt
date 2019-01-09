@@ -1,3 +1,6 @@
 Flask
 Redis
 
+django
+gunicorn
+django-heroku
