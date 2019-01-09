@@ -18,8 +18,5 @@ script:
   - pytest test.py
 
 after_success:
-  - if [[ "$TRAVIS_BRANCH" == "master" ]]; then
-      docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD ;
-      docker push
-    fi
-
+  - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD ;
+  - docker push lloydie/hello-docker
